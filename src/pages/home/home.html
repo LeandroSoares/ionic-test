@@ -1,17 +1,28 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Reddit Feed Reader</ion-title>
+    </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+            refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <button ion-item *ngFor="let feed of feeds" (click)="itemSelected(feed.data.url)">
+            <ion-thumbnail item-left>
+                <img [src]="
+            feed.data.thumbnail">
+            </ion-thumbnail>
+            <h2>{{feed.data.title}}</h2>
+            <p>{{feed.data.domain}}</p>
+        </button>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
 </ion-content>
